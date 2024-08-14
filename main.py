@@ -422,7 +422,7 @@ def finalize_feedback(message, cleaner_name, cleaning_type, address, surfaces_st
     chat_id = message.chat.id
     message_id = message.message_id
 
-    #delete_messages(bot, chat_id, message_id, del_count)
+    delete_messages(bot, chat_id, message_id, del_count)
 
     bot.send_message(message.chat.id, f"Спасибо, {name}! Мы собираем эти данные, чтобы улучшить работу нашего клининга! В благодарность мы предлагаем вам купон на скидку 10% при следующем обращении! Ваш купон: {coupon}")
     
