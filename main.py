@@ -7,6 +7,20 @@ import os
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import pandas as pd
+import logging
+
+# Настройка логирования
+logging.basicConfig(
+    level=logging.INFO,  # Уровень логирования (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Формат записи
+    handlers=[
+        logging.FileHandler("checklist_bot.log"),  # Запись логов в файл
+        logging.StreamHandler()  # Вывод логов на консоль
+    ]
+)
+
+# Получаем логгер для использования в коде
+logger = logging.getLogger(__name__)
 
 # Загружаем user_id из файла .env
 load_dotenv()
@@ -344,7 +358,6 @@ def handle_recommendation_rating(call):
 @bot.callback_query_handler(func=lambda call: call.data.startswith('sug_n_'))
 def handle_no_suggestions(call):
     data = call.data.split('_')
-    print(data)
     cleaner_name = data[2]
     cleaning_type = data[3]
     address = data[4]
@@ -422,7 +435,7 @@ def finalize_feedback(message, cleaner_name, cleaning_type, address, surfaces_st
     chat_id = message.chat.id
     message_id = message.message_id
 
-    #delete_messages(bot, chat_id, message_id, del_count)
+    delete_messages(bot, chat_id, message_id, del_count)
 
     bot.send_message(message.chat.id, f"Спасибо, {name}! Мы собираем эти данные, чтобы улучшить работу нашего клининга! В благодарность мы предлагаем вам купон на скидку 10% при следующем обращении! Ваш купон: {coupon}")
     
